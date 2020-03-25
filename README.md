@@ -22,14 +22,63 @@ Je vous invite à regarder la vidéo de [Human Talks Paris](https://www.youtube.
 Quelques petites questions :
 
 - Résumer en une phrase l'intérêt de Material UI
+  L'intérêt de Material UI est que l'on peut utiliser directement des éléments déjà stylisé 
 - Comment importer `material-ui` dans un fichier ?
+ import <le nom de l'élément> from "@material-ui/core/<l'élément>"
 - Comment une application peut utiliser un thème à travers l'ensemble d'un projet ?
 - A quoi sert `createMuiTheme` ?
+  A personnaliser les éléments material-ui
 - A quoi correspond `palette` ?
+  Aux couleurs des éléments material-ui
 - Comment re-définir des propriétés ?
+  Grace a la propriété overrides
 - A quoi vous fait penser `withStyle` ? Comment l'utiliser ?
+  il fait penser au withAutorization . A l'aide de props (asseez similaire au withAutorization)
 - Reproduire les deux boutons rouge et bleu présentées dans la vidéo.
+  
 
+  import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles';
+  import blue from '@material-ui/core/colors/blue' ;
+  class App extends React.Component {
+      render() {
+          return(
+          <MuiThemeProvider theme={theme}>
+                <div>
+                    <Button className ={this.props.classes.myLeftButton}> btn 1 </Button>
+                    <Button> btn 2</Button>
+                </div>
+          </MuiThemeProvider>
+          )
+      }
+      
+  }
+  const theme = createMuiTheme ({
+    palette :{
+        primary : blue 
+    },
+    
+    typography :{
+        fontSize : 15, 
+        fontFamily : "Arial"
+    },
+    
+    overrides :{
+        MuiButton :{
+            root: {
+                backgroundColor : "red",
+                "&:hover": {backgroundColor : "yellow"}
+            }
+        }
+    }
+  })
+
+  const styles = {
+    myLeftButton : {
+        backgroundColor :"blue"
+    }
+  }
+  
+  export default  withStyles(styles)(App);
 
 ## Styled Components
 
@@ -38,10 +87,43 @@ De la même manière, voici une [vidéo](https://www.youtube.com/watch?v=mS0UKNB
 Quelques petites questions :
 
 - Qu'est-ce que le CSS-in-JS ?
+  La fusion entre CSS et Javascript pour que le design soit plus lisible et plus simple (dans le code ) 
 - Qu'est-ce que sont les tagged templates (délimitées par des backticks) ?
+  Un tableau de propriétés CSS 
 - Donner un exemple d'un bouton personnalisé avec et sans les tagged templates ?
+  Sans :
+    import styled from 'styled-components';
+    
+    <Bouton> btn 1 </Bouton> //le bouton est dans le return d'une class App 
+    
+    export const Bouton = styled.button([color : blue;"])
+
+  Avec :
+    import styled from 'styled-components';
+    
+    <Bouton> btn 1 </Bouton> //le bouton est dans le return d'une class App
+    
+    export const Bouton = styled.button `color : blue;`
+    
+    
 - Comment utilise-t-on les props dans cette librarie ?
+  ${props => props.monprops ? "1" : "2"};
 - Reprendre l'exemple du Material UI avec styled-components; l'écrire avec la composition et avec l'héritage.
+    
+    import styled from 'styled-components';
+    
+    <Bouton> btn 1 </Bouton> //le bouton est dans le return d'une class App
+    <Bouton> btn 2 </Bouton> //le bouton est dans le return d'une class App   
+
+    export const Bouton = styled.button `
+    background-color : blue; 
+    
+    &+& {background-color : red}
+    
+    &:hover {background-color : yellow}
+    
+   
+    `
 - Quelles sont les fonctions du contexte de styled-components ?
 
 
@@ -65,11 +147,26 @@ Activer l'authentification anonyme dans la console de Firebase.
 
 - Le code utilise des fonctions plutôt que des classes. Ecrire un bouton sous la forme d'une classe et d'une fonction. Retrouver les équivalences entre les méthodes des composants (telles que setState) et celles des fonctions ?
 - Comment récupérer les props dans une fonction ?
+  const blablabla= (props) => {
 - Dans `App.js`, identifier les différents producteurs de données. Retrouver leur définition. Quelles données partagent-ils à l'ensemble de l'application ?
+  UserProvider, GameProvider, MasterGameProvider défini dans les fichiers Game.js MasterGame.js et User.js Master et Game partage game tandis que User partage user 
 - Identifier les différentes pages de l'application. Décrire à l'aide d'une phrase le rôle de chacune d'entre elles.
+    AlivePage : Défini notre role 
+    CastPage : Permet de voter 
+    CodePage : Permet de rejoindre une partie 
+    CreatePage : Permet de créer une partie 
+    DeadPage : C'est quand on est mort 
+    EndPage : Ecran de fin qui affiche les résultats 
+    NightPage : C'est la nuit 
+    ResultsPage : C'est la page qui compile est affiche le résultats des votes pendant la partie 
+    SpellPage : C'est les pouvoirs de la sorcière 
+    StartPAge : C'est la page d'acceuil 
 - Pourquoi voit-on sur plusieurs pages "Chargement du master game en cours" ?
+  Parce qu'il y a plusieurs choses qui charges 
 - Avec les classes, nous utilisions `withMyContext` pour s'inscrire aux données d'un provider. Identifier dans services/Game.js la fonction qui joue désormais ce rôle.
-- Dans `CodePage`, rappeler comment un formulaire gère les champs de remplissage des données.o
+  C'est la fonction gameContext
+- Dans `CodePage`, rappeler comment un formulaire gère les champs de remplissage des données.
+  Grace a la fonction onChange qui permet de récuperer ce qui est écrit à chaque modifications de l'input 
 
 ### Reprise du design
 
